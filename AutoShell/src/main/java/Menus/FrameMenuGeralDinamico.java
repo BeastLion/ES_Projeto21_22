@@ -10,9 +10,11 @@ import Veiculos.Veiculos;
 import Veiculos.VeiculosInserir;
 import Veiculos.VeiculosEliminar;
 import Veiculos.VeiculosEditar;
+import Veiculos.GestorVeiculos;
 
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +32,8 @@ public class FrameMenuGeralDinamico extends JDialog {
     private JPanel MenuEsquerda;
     private JPanel painelPrincipal;
     private JPanel MenuVeiculo;
+
+    String header[] = {"ID","Matricula","Marca","Modelo","Preco"};
 
     public FrameMenuGeralDinamico(JFrame parent, Veiculos veiculos){
         super(parent);
@@ -407,5 +411,14 @@ public class FrameMenuGeralDinamico extends JDialog {
             }
         });
         setVisible(true);
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+        GestorVeiculos gestorVeiculos = new GestorVeiculos();
+        DefaultTableModel model = new DefaultTableModel(0, header.length);
+        model.setColumnIdentifiers(header);
+        tabelaConsultaDetalhada = new JTable(model);
+        gestorVeiculos.selectVeiculos(model);
     }
 }

@@ -71,7 +71,4 @@ public class VeiculosInserir extends  JDialog{
         gestorVeiculos.selectVeiculos(model);
     }
 
-    public static void main(String[] args) {
-        VeiculosInserir veiculosInserir = new VeiculosInserir(null);
-    }
 }

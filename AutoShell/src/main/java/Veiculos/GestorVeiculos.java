@@ -42,7 +42,7 @@ public class GestorVeiculos {
     }
 
     // Seleciona todos os veiculos
-    void selectVeiculos(DefaultTableModel model){
+    public void selectVeiculos(DefaultTableModel model){
         try{
 
             Connection conn = DriverManager.getConnection(db.getDB_URL(),db.getUSERNAME(),db.getPASSWORD());
@@ -154,11 +154,6 @@ public class GestorVeiculos {
     // Edita um veiculo baseado no seu id
     public void editarVeiculos(String matricula, String marca, String modelo, String preco, int id) {
         try{
-            System.out.println(matricula);
-            System.out.println(marca);
-            System.out.println(modelo);
-            System.out.println(preco);
-            System.out.println(id);
             // Começa a conecção
             Connection conn = DriverManager.getConnection(db.getDB_URL(),db.getUSERNAME(),db.getPASSWORD());
 
