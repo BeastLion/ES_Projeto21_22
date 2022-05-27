@@ -35,6 +35,7 @@ public class VeiculosInserir extends  JDialog{
     private JButton carregarFotoButton;
     private JTextField linkText;
     private JPanel teste;
+    private JTextField textPathHidden;
     private JLabel picLabel;
     private String destRelPath;
     String header[] = {"ID","Matricula","Marca","Modelo","Preco","DonosAnt","Descricao"};
@@ -50,6 +51,7 @@ public class VeiculosInserir extends  JDialog{
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         linkText.setEnabled(false);
+        textPathHidden.setVisible(false);
         confirmarButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -61,6 +63,7 @@ public class VeiculosInserir extends  JDialog{
             String preco = precoText.getText();
             String donosAnt = donosAntText.getText();
             String descricao = descricaoText.getText();
+            String path = textPathHidden.getText();
 
             if (Objects.equals(matricula, "") || Objects.equals(marca, "") || Objects.equals(modelo, "") || Objects.equals(preco, "")){
                 JOptionPane.showMessageDialog(VeiculosInserir.this, "Não pode inserir sem preencher os campos","Preencha todos os campos",JOptionPane.ERROR_MESSAGE);
@@ -70,13 +73,12 @@ public class VeiculosInserir extends  JDialog{
             if (donosAnt == null){
                 donosAnt = "0";
             }
-
-            if (destRelPath == null){
+            if (path == null){
                 destRelPath = "/src/main/resources/default.jpg";
             }
 
             // Chamar a função de inserção
-            gestorVeiculos.insertVeiculos(matricula,marca,modelo,preco, donosAnt, descricao, destRelPath);
+            gestorVeiculos.insertVeiculos(matricula,marca,modelo,preco, donosAnt, descricao, path);
 
             // Resetar os campos após inserção
             matriculaText.setText("");
@@ -111,8 +113,9 @@ public class VeiculosInserir extends  JDialog{
                         Path destPath = fileSys.getPath(System.getProperty("user.dir") + "/src/main/resources/" + fileChooser.getSelectedFile().getName());
                         try {
                             Files.copy(srcPath, destPath, StandardCopyOption.REPLACE_EXISTING);
-                            String destRelPath = "/src/main/resources/" + fileChooser.getSelectedFile().getName();
+                            textPathHidden.setText("/src/main/resources/" + fileChooser.getSelectedFile().getName());
                             linkText.setText(System.getProperty("user.dir") + "/src/main/resources/" + fileChooser.getSelectedFile().getName());
+
                         } catch (IOException ioe) {
                             ioe.printStackTrace();
                         }

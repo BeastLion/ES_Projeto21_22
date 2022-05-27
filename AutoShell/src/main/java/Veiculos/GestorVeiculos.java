@@ -40,7 +40,7 @@ public class GestorVeiculos {
             conn.close();
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.err.println(e.getMessage()+ "DEBUG GESTOR");
         }
     }
 
@@ -95,7 +95,7 @@ public class GestorVeiculos {
             // Vai para o 1º resultado guardado no query
             if (resultSet.next()){
                 // Guardamos numa linha
-                 Object[] row = {resultSet.getInt("id"),resultSet.getString("Matricula"),resultSet.getString("Marca"),resultSet.getString("Modelo"),resultSet.getString("Preco"),resultSet.getString("DonosAnt"),resultSet.getString("Descricao")};
+                 Object[] row = {resultSet.getInt("id"),resultSet.getString("Matricula"),resultSet.getString("Marca"),resultSet.getString("Modelo"),resultSet.getString("Preco"),resultSet.getString("DonosAnt"),resultSet.getString("Descricao"),resultSet.getString("Imagem")};
                 return row;
             }
             // Fecha o statement

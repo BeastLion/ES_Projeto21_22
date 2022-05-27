@@ -14,8 +14,8 @@ public class VeiculosConsultarDetalhado extends JDialog {
     private JTextField DonosText;
     private JTextField DescricaoText;
     private JButton cancelarButton;
-    private JPanel imageText;
     private JLabel precoLabel;
+    private JLabel imageLabel;
 
     public VeiculosConsultarDetalhado(JFrame parent, String matricula) {
         super(parent);
@@ -27,6 +27,12 @@ public class VeiculosConsultarDetalhado extends JDialog {
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         Object[] row = gestorVeiculos.selectVeiculosMatricula(matricula);
+        imageLabel.setSize(10,10);
+        ImageIcon  img = new ImageIcon(System.getProperty("user.dir") +row[7].toString());
+        Image imgg = img.getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT);
+        Icon icon = new ImageIcon(imgg);
+        imageLabel.setIcon(icon);
+
         // Set off
         MatriculaText.setEnabled(false);
         MarcaText.setEnabled(false);
@@ -34,6 +40,7 @@ public class VeiculosConsultarDetalhado extends JDialog {
         precoLabel.setEnabled(false);
         DonosText.setEnabled(false);
         DescricaoText.setEnabled(false);
+
         // Set Values
         MatriculaText.setText(row[4].toString());
         MarcaText.setText(row[2].toString());
@@ -50,5 +57,9 @@ public class VeiculosConsultarDetalhado extends JDialog {
             }
         });
         setVisible(true);
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 }
