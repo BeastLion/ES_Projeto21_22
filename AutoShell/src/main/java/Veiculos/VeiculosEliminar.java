@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 
 public class VeiculosEliminar extends JDialog {
 
-    String header[] = {"ID","Matricula","Marca","Modelo","Preco"};
+    String header[] = {"ID","Matricula","Marca","Modelo","Preco","DonosAnt","Descricao"};
     private JTable veiculosTable;
     private JButton confirmarButton;
     private JButton cancelarButton;

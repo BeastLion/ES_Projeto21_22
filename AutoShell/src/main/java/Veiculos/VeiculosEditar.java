@@ -1,5 +1,7 @@
 package Veiculos;
 
+import Menus.FrameMenuGeralDinamico;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -15,11 +17,13 @@ public class VeiculosEditar extends JDialog {
     private JTextField marcaText;
     private JTextField modeloText;
     private JTextField precoText;
+    private JTextField donosText;
+    private JTextField descricaoText;
     private JButton cancelarButton;
     private JButton confirmarButton;
     private JTextField searchMatricula;
     private JTextField hidden;
-    String header[] = {"ID","Matricula","Marca","Modelo","Preco"};
+    String header[] = {"ID","Matricula","Marca","Modelo","Preco","DonosAnt","Descricao"};
 
     public VeiculosEditar(JFrame parent) {
         super(parent);
@@ -39,6 +43,8 @@ public class VeiculosEditar extends JDialog {
         marcaText.setEnabled(false);
         modeloText.setEnabled(false);
         precoText.setEnabled(false);
+        donosText.setEnabled(false);
+        descricaoText.setEnabled(false);
         confirmarButton.setEnabled(false);
 
         // Key Listener
@@ -61,6 +67,8 @@ public class VeiculosEditar extends JDialog {
                     marcaText.setEnabled(true);
                     modeloText.setEnabled(true);
                     precoText.setEnabled(true);
+                    donosText.setEnabled(true);
+                    descricaoText.setEnabled(true);
 
                     // Os valores dos nossos campos
                     hidden.setText(row[0].toString());
@@ -68,17 +76,25 @@ public class VeiculosEditar extends JDialog {
                     marcaText.setText(row[2].toString());
                     modeloText.setText(row[3].toString());
                     precoText.setText(row[4].toString());
+                    donosText.setText(row[5].toString());
+                    descricaoText.setText(row[6].toString());
 
                 } else {
+
                     confirmarButton.setEnabled(false);
                     matriculaText.setEnabled(false);
                     marcaText.setEnabled(false);
                     modeloText.setEnabled(false);
                     precoText.setEnabled(false);
+                    donosText.setEnabled(false);
+                    descricaoText.setEnabled(false);
+
                     matriculaText.setText("--- Not Found");
                     marcaText.setText("--- Not Found");
                     modeloText.setText("--- Not Found");
                     precoText.setText("--- Not Found");
+                    donosText.setText("--- Not Found");
+                    descricaoText.setText("--- Not Found");
                 }
             }
         });
@@ -92,15 +108,26 @@ public class VeiculosEditar extends JDialog {
                 String marcaEdit = marcaText.getText();
                 String modeloEdit = modeloText.getText();
                 String precoEdit = precoText.getText();
+                String donosEdit = donosText.getText();
+                String descricao = descricaoText.getText();
 
                 // Fazemos a sua edição
-                gestorVeiculos.editarVeiculos(matriculaEdit,marcaEdit,modeloEdit,precoEdit,id);
+                gestorVeiculos.editarVeiculos(matriculaEdit,marcaEdit,modeloEdit,precoEdit,donosEdit,descricao,id);
 
+                // Procurar
                 searchMatricula.setText(matriculaEdit);
 
             }
         });
         setVisible(true);
+        cancelarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Veiculos veiculos = new Veiculos();
+                dispose();
+                FrameMenuGeralDinamico menu = new FrameMenuGeralDinamico(null, veiculos);
+            }
+        });
     }
 
     // Faz a tabela -> Vai buscar os veiculos

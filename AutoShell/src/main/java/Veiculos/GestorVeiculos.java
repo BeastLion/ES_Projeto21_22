@@ -14,13 +14,13 @@ public class GestorVeiculos {
     }
 
     // Insere um veiculo
-    void insertVeiculos(String matricula, String marca, String modelo, String preco) {
+    void insertVeiculos(String matricula, String marca, String modelo, String preco, String donosAnt, String descricao, String imageLink) {
         try{
             // Começa a conecção
             Connection conn = DriverManager.getConnection(db.getDB_URL(),db.getUSERNAME(),db.getPASSWORD());
 
             // O nosso comando SQL
-            String sql = "INSERT INTO veiculos(Matricula,Marca,Modelo,Preco) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO veiculos(Matricula,Marca,Modelo,Preco,DonosAnt,Descricao,Imagem) VALUES (?,?,?,?,?,?,?)";
 
             // Preparamos o nosso comando SQL
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -29,6 +29,9 @@ public class GestorVeiculos {
             preparedStatement.setString(2,marca);
             preparedStatement.setString(3,modelo);
             preparedStatement.setString(4,preco);
+            preparedStatement.setInt(5, Integer.parseInt(donosAnt));
+            preparedStatement.setString(6,descricao);
+            preparedStatement.setString(7,imageLink);
 
             // Executa o comando (update para DML)
             preparedStatement.executeUpdate(); // Para DML
@@ -59,7 +62,7 @@ public class GestorVeiculos {
             // Vai para o 1º resultado guardado no query
             while (resultSet.next()){
                 // Guardamos numa linha
-                Object[] row = {resultSet.getInt("id"),resultSet.getString("Matricula"),resultSet.getString("Marca"),resultSet.getString("Modelo"),resultSet.getString("Preco")};
+                Object[] row = {resultSet.getInt("id"),resultSet.getString("Matricula"),resultSet.getString("Marca"),resultSet.getString("Modelo"),resultSet.getString("Preco"),resultSet.getString("DonosAnt"),resultSet.getString("Descricao")};
                 // Implementamos essa linha no nosso modelo (tabela)
                 model.addRow(row);
             }
@@ -92,7 +95,7 @@ public class GestorVeiculos {
             // Vai para o 1º resultado guardado no query
             if (resultSet.next()){
                 // Guardamos numa linha
-                 Object[] row = {resultSet.getInt("id"),resultSet.getString("Matricula"),resultSet.getString("Marca"),resultSet.getString("Modelo"),resultSet.getString("Preco")};
+                 Object[] row = {resultSet.getInt("id"),resultSet.getString("Matricula"),resultSet.getString("Marca"),resultSet.getString("Modelo"),resultSet.getString("Preco"),resultSet.getString("DonosAnt"),resultSet.getString("Descricao")};
                 return row;
             }
             // Fecha o statement
@@ -152,13 +155,13 @@ public class GestorVeiculos {
     }
 
     // Edita um veiculo baseado no seu id
-    public void editarVeiculos(String matricula, String marca, String modelo, String preco, int id) {
+    public void editarVeiculos(String matricula, String marca, String modelo, String preco,String donosAnt, String descricao, int id) {
         try{
             // Começa a conecção
             Connection conn = DriverManager.getConnection(db.getDB_URL(),db.getUSERNAME(),db.getPASSWORD());
 
             // O nosso comando SQL
-            String sql = "UPDATE veiculos SET matricula=?, marca=?, modelo=?, preco=? WHERE id=?";
+            String sql = "UPDATE veiculos SET matricula=?, marca=?, modelo=?, preco=?, donosAnt=?, descricao=? WHERE id=?";
 
             // Preparamos o nosso comando SQL
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -167,7 +170,9 @@ public class GestorVeiculos {
             preparedStatement.setString(2,marca);
             preparedStatement.setString(3,modelo);
             preparedStatement.setString(4,preco);
-            preparedStatement.setInt(5,id);
+            preparedStatement.setString(5,donosAnt);
+            preparedStatement.setString(6,descricao);
+            preparedStatement.setInt(7,id);
 
             // Executa o comando (update para DML)
             int resultSet = preparedStatement.executeUpdate(); // Para DML

@@ -14,6 +14,9 @@ public class FrameLogin extends JDialog{
     private JPanel loginPanel;
     private JPasswordField passwordText;
     private JButton login;
+    private JButton cancelarButton;
+    private ImageIcon logoIcon;
+    private JLabel myLabel;
     public User user;
 
     public FrameLogin(JFrame parent){
@@ -35,7 +38,6 @@ public class FrameLogin extends JDialog{
 
                 if (user != null){
                     dispose();
-                    JOptionPane.showMessageDialog(FrameLogin.this, "Bem vindo "+username);
                     FrameMenu menu = new FrameMenu(null);;
                 } else{
                     JOptionPane.showMessageDialog(FrameLogin.this, "Credenciais erradas","Tente novamente",JOptionPane.ERROR_MESSAGE);
@@ -43,6 +45,12 @@ public class FrameLogin extends JDialog{
             }
         });
         setVisible(true);
+        cancelarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
     }
 
     private User getAuthenticateUser(String username, String password) {
