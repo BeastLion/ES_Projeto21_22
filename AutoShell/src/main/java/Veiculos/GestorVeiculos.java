@@ -1,8 +1,14 @@
 package Veiculos;
 
+import Alerts.FailAlert;
+import Alerts.SuccessAlert;
 import DBCONFIG.DB;
 
 import javax.swing.table.DefaultTableModel;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 
 public class GestorVeiculos {
@@ -187,5 +193,98 @@ public class GestorVeiculos {
         }
     }
 
+    // Exporta Veiculos para um CSV
+    public void exportVeiculosToCSV(String query, String filename) throws IOException {
+        try {
+            Connection conn = DriverManager.getConnection(db.getDB_URL(),db.getUSERNAME(),db.getPASSWORD());
 
+            Statement stat = conn.createStatement();
+
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+
+            FileWriter fw = new FileWriter(System.getProperty("user.dir") + "/src/main/resources/csv/" +filename + ".csv");
+
+            ResultSet rs = preparedStatement.executeQuery(query);
+
+            int cols = rs.getMetaData().getColumnCount();
+
+            for(int i = 1; i <= cols; i ++){
+                fw.append(rs.getMetaData().getColumnLabel(i));
+                if(i < cols) fw.append(',');
+                else fw.append('\n');
+            }
+
+            while (rs.next()) {
+
+                for(int i = 1; i <= cols; i ++){
+                    fw.append(rs.getString(i));
+                    if(i < cols) fw.append(',');
+                }
+                fw.append('\n');
+            }
+            fw.flush();
+            fw.close();
+            conn.close();
+            SuccessAlert successAlert = new SuccessAlert(null, "Veiculos EXPORTADOS COM SUCESSO");
+        } catch (Exception e) {
+            FailAlert failAlert = new FailAlert(null, "Não foi possivel EXPORTAR os dados");
+        }
+    }
+
+    // Importa Veiculso para a nossa BD
+    public void importCSVtoDB(String path){
+
+        String csvFilePath = "Reviews-simple.csv";
+
+        int batchSize = 20;
+
+        try {
+
+            Connection connection = DriverManager.getConnection(db.getDB_URL(),db.getUSERNAME(),db.getPASSWORD());
+            connection.setAutoCommit(false);
+
+            String sql = "INSERT INTO veiculos(Matricula,Marca,Modelo,Preco,Descricao) VALUES (?,?,?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath));
+            String lineText = null;
+
+            int count = 0;
+
+            lineReader.readLine(); // skip header line
+
+            while ((lineText = lineReader.readLine()) != null) {
+                String[] data = lineText.split(",");
+                String matricula = data[0];
+                String marca = data[1];
+                String modelo = data[2];
+                String preco = data[3];
+                String descricao = data[4];
+
+                statement.setString(1, matricula);
+                statement.setString(2, marca);
+                statement.setString(3, modelo);
+                statement.setString(4, preco);
+                statement.setString(5, descricao);
+                statement.addBatch();
+
+                if (count % batchSize == 0) {
+                    statement.executeBatch();
+                }
+            }
+
+            lineReader.close();
+
+            // execute the remaining queries
+            statement.executeBatch();
+
+            connection.commit();
+            connection.close();
+
+        } catch (IOException ex) {
+            System.err.println(ex);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 }

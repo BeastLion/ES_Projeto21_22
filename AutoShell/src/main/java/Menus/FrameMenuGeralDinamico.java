@@ -89,6 +89,12 @@ public class FrameMenuGeralDinamico extends JDialog {
         exportarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                GestorVeiculos gestorVeiculos = new GestorVeiculos();
+                try {
+                    gestorVeiculos.exportVeiculosToCSV("SELECT * FROM VEICULOS","veiculosExport");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         voltarButton.addActionListener(new ActionListener() {
