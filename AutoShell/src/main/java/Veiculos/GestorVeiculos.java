@@ -155,13 +155,13 @@ public class GestorVeiculos {
     }
 
     // Edita um veiculo baseado no seu id
-    public void editarVeiculos(String matricula, String marca, String modelo, String preco,String donosAnt, String descricao, int id) {
+    public void editarVeiculos(String matricula, String marca, String modelo, String preco,String donosAnt, String descricao,String path, int id) {
         try{
             // Começa a conecção
             Connection conn = DriverManager.getConnection(db.getDB_URL(),db.getUSERNAME(),db.getPASSWORD());
 
             // O nosso comando SQL
-            String sql = "UPDATE veiculos SET matricula=?, marca=?, modelo=?, preco=?, donosAnt=?, descricao=? WHERE id=?";
+            String sql = "UPDATE veiculos SET matricula=?, marca=?, modelo=?, preco=?, donosAnt=?, descricao=?, Imagem=? WHERE id=?";
 
             // Preparamos o nosso comando SQL
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -172,7 +172,8 @@ public class GestorVeiculos {
             preparedStatement.setString(4,preco);
             preparedStatement.setString(5,donosAnt);
             preparedStatement.setString(6,descricao);
-            preparedStatement.setInt(7,id);
+            preparedStatement.setString(7,path);
+            preparedStatement.setInt(8,id);
 
             // Executa o comando (update para DML)
             int resultSet = preparedStatement.executeUpdate(); // Para DML

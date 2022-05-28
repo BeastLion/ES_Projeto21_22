@@ -22,7 +22,7 @@ public class VeiculosConsultarDetalhado extends JDialog {
         GestorVeiculos gestorVeiculos = new GestorVeiculos();
         setTitle("Consultar Veiculo Especifico");
         setContentPane(veiculosPanel);
-        setMinimumSize(new Dimension(450, 475));
+        setMinimumSize(new Dimension(683,480));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

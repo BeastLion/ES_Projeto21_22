@@ -1,5 +1,8 @@
 package Veiculos;
 
+import Alerts.ConfirmarDelete;
+import Alerts.FailAlert;
+import Alerts.SuccessAlert;
 import Login.FrameLogin;
 import Menus.FrameMenuGeralDinamico;
 
@@ -8,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class VeiculosEliminar extends JDialog {
 
@@ -22,9 +26,10 @@ public class VeiculosEliminar extends JDialog {
     public VeiculosEliminar(JFrame parent) {
         super(parent);
         GestorVeiculos gestorVeiculos = new GestorVeiculos();
+        Veiculos veiculos = null;
         setTitle("Eliminar Veiculo");
         setContentPane(veiculosEliminar);
-        setMinimumSize(new Dimension(450, 475));
+        setMinimumSize(new Dimension(1366,768));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -33,13 +38,10 @@ public class VeiculosEliminar extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 String matricula = matriculaText.getText();
 
-                if (matricula != null){
-                    status = gestorVeiculos.eliminarVeiculo(matricula);
-                    if (status){
-                        JOptionPane.showMessageDialog(VeiculosEliminar.this, "Veiculo apagado da Base de dados "+ matricula);
-                    } else{
-                        JOptionPane.showMessageDialog(VeiculosEliminar.this, "Não existe um veiculo com essa matricula","Tente novamente",JOptionPane.ERROR_MESSAGE);
-                    }
+                try {
+                    ConfirmarDelete confirmarDelete = new ConfirmarDelete(null,matricula,veiculos);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             }
         });

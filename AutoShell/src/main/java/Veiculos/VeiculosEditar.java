@@ -1,5 +1,6 @@
 package Veiculos;
 
+import Alerts.FailAlert;
 import Menus.FrameMenuGeralDinamico;
 
 import javax.swing.*;
@@ -9,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.nio.file.*;
+import java.util.Objects;
 
 public class VeiculosEditar extends JDialog {
     private JTable veiculosTable;
@@ -23,6 +27,9 @@ public class VeiculosEditar extends JDialog {
     private JButton confirmarButton;
     private JTextField searchMatricula;
     private JTextField hidden;
+    private JTextField linkText;
+    private JTextField textPathHidden;
+    private JButton carregarFotoButton;
     String header[] = {"ID","Matricula","Marca","Modelo","Preco","DonosAnt","Descricao"};
 
     public VeiculosEditar(JFrame parent) {
@@ -30,13 +37,14 @@ public class VeiculosEditar extends JDialog {
         setTitle("Editar Veiculo");
         GestorVeiculos gestorVeiculos = new GestorVeiculos();
         setContentPane(VeiculoEditar);
-        setMinimumSize(new Dimension(450, 475));
+        setMinimumSize(new Dimension(1366,768));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         // Hidden id field
         hidden.setVisible(false);
+        textPathHidden.setVisible(false);
 
         // Desligamos a escrita
         matriculaText.setEnabled(false);
@@ -46,6 +54,7 @@ public class VeiculosEditar extends JDialog {
         donosText.setEnabled(false);
         descricaoText.setEnabled(false);
         confirmarButton.setEnabled(false);
+        linkText.setEnabled(false);
 
         // Key Listener
         searchMatricula.addKeyListener(new KeyAdapter() {
@@ -110,16 +119,32 @@ public class VeiculosEditar extends JDialog {
                 String precoEdit = precoText.getText();
                 String donosEdit = donosText.getText();
                 String descricao = descricaoText.getText();
+                String path = textPathHidden.getText();
+
+                if (Objects.equals(matriculaEdit, "") || Objects.equals(marcaEdit, "") || Objects.equals(modeloEdit, "") || Objects.equals(precoEdit, "")){
+                    try {
+                        FailAlert failAlert = new FailAlert(null,"TEM DE PREENCHER OS CAMPOS");
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    return;
+                }
+
+                if (donosEdit == null){
+                    donosEdit = "0";
+                }
+                if (path == null){
+                    path = "/src/main/resources/default.jpg";
+                }
 
                 // Fazemos a sua edição
-                gestorVeiculos.editarVeiculos(matriculaEdit,marcaEdit,modeloEdit,precoEdit,donosEdit,descricao,id);
+                gestorVeiculos.editarVeiculos(matriculaEdit,marcaEdit,modeloEdit,precoEdit,donosEdit,descricao,path,id);
 
                 // Procurar
                 searchMatricula.setText(matriculaEdit);
 
             }
         });
-        setVisible(true);
         cancelarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -128,6 +153,32 @@ public class VeiculosEditar extends JDialog {
                 FrameMenuGeralDinamico menu = new FrameMenuGeralDinamico(null, veiculos);
             }
         });
+        carregarFotoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == carregarFotoButton) {
+                    JFileChooser fileChooser = new JFileChooser();
+
+                    int response = fileChooser.showOpenDialog(parent); // select file to open
+
+                    if (response == JFileChooser.APPROVE_OPTION) {
+                        FileSystem fileSys = FileSystems.getDefault();
+                        Path srcPath = fileSys.getPath(fileChooser.getSelectedFile().getAbsolutePath());
+                        Path destPath = fileSys.getPath(System.getProperty("user.dir") + "/src/main/resources/" + fileChooser.getSelectedFile().getName());
+                        try {
+                            Files.copy(srcPath, destPath, StandardCopyOption.REPLACE_EXISTING);
+                            textPathHidden.setText("/src/main/resources/" + fileChooser.getSelectedFile().getName());
+                            linkText.setText(System.getProperty("user.dir") + "/src/main/resources/" + fileChooser.getSelectedFile().getName());
+
+                        } catch (IOException ioe) {
+                            ioe.printStackTrace();
+                        }
+                    }
+                }
+
+            }
+        });
+        setVisible(true);
     }
 
     // Faz a tabela -> Vai buscar os veiculos

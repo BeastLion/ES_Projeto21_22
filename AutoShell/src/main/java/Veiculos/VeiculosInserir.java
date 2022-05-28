@@ -1,5 +1,7 @@
 package Veiculos;
 
+import Alerts.FailAlert;
+import Alerts.SuccessAlert;
 import DBCONFIG.DB;
 import Menus.FrameMenuGeralDinamico;
 
@@ -46,7 +48,7 @@ public class VeiculosInserir extends  JDialog{
         GestorVeiculos gestorVeiculos = new GestorVeiculos();
         setTitle("Inserir Veiculo");
         setContentPane(veiculosPanel);
-        setMinimumSize(new Dimension(450,475));
+        setMinimumSize(new Dimension(1366,768));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -66,7 +68,11 @@ public class VeiculosInserir extends  JDialog{
             String path = textPathHidden.getText();
 
             if (Objects.equals(matricula, "") || Objects.equals(marca, "") || Objects.equals(modelo, "") || Objects.equals(preco, "")){
-                JOptionPane.showMessageDialog(VeiculosInserir.this, "Não pode inserir sem preencher os campos","Preencha todos os campos",JOptionPane.ERROR_MESSAGE);
+                try {
+                    FailAlert failAlert = new FailAlert(null,"TEM DE PREENCHER OS CAMPOS");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 return;
             }
 
@@ -74,7 +80,7 @@ public class VeiculosInserir extends  JDialog{
                 donosAnt = "0";
             }
             if (path == null){
-                destRelPath = "/src/main/resources/default.jpg";
+                path = "/src/main/resources/default.jpg";
             }
 
             // Chamar a função de inserção
@@ -87,6 +93,13 @@ public class VeiculosInserir extends  JDialog{
             precoText.setText("");
             donosAntText.setText("");
             descricaoText.setText("");
+
+            try {
+                SuccessAlert successAlert = new SuccessAlert(null,"VEICULOS INSERIDO COM SUCESSO");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
 
         }
     });
@@ -120,7 +133,6 @@ public class VeiculosInserir extends  JDialog{
                             ioe.printStackTrace();
                         }
                     }
-
                 }
             }
         });
