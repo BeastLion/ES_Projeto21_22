@@ -20,6 +20,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.nio.file.*;
 
 public class FrameMenuGeralDinamico extends JDialog {
     private JTable tab;
@@ -84,6 +85,19 @@ public class FrameMenuGeralDinamico extends JDialog {
         importarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == importarButton) {
+                    JFileChooser fileChooser = new JFileChooser();
+
+                    int response = fileChooser.showOpenDialog(parent); // select file to open
+
+                    if (response == JFileChooser.APPROVE_OPTION) {
+                        FileSystem fileSys = FileSystems.getDefault();
+                        Path srcPath = fileSys.getPath(fileChooser.getSelectedFile().getAbsolutePath());
+                        GestorVeiculos gestorVeiculos = new GestorVeiculos();
+                        System.out.println(srcPath.toString());
+                        gestorVeiculos.importCSVtoDB(srcPath.toString());
+                    }
+                }
             }
         });
         exportarButton.addActionListener(new ActionListener() {

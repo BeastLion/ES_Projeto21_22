@@ -1,20 +1,2 @@
-ID,Matricula,Marca,Modelo,Preco,Imagem,DonosAnt,Descricao
-2,AZZD,Davi,Portugues,0,/src/main/resources/default.jpg,0,0
-3, B,jiji,jij,ij,/src/main/resources/default.jpg,0,0
-7, C,jiji,jij,ij,/src/main/resources/default.jpg,0,0
-8, D,jiji,jij,ij,/src/main/resources/default.jpg,0,0
-9, E,jiji,jij,ij,/src/main/resources/default.jpg,0,0
-10, F,jiji,jij,ij,/src/main/resources/default.jpg,0,0
-11, G,jiji,jij,ij,/src/main/resources/default.jpg,0,0
-12, H,jiji,jij,ij,/src/main/resources/default.jpg,0,0
-13, I,jiji,jij,ij,/src/main/resources/default.jpg,0,0
-25, J,jiji,jij,ij,/src/main/resources/default.jpg,0,0
-26, L,jiji,jij,ij,/src/main/resources/default.jpg,0,0
-30,8765876,58765,658765,76587,/src/main/resources/default.jpg,8765876,587658765
-31,4,3,2,1,/src/main/resources/default.jpg,5,6
-32,98769,869876,998769,9876,/src/main/resources/default.jpg,0,
-33,8765,8758,8765,58765,/src/main/resources/default.jpg,86758765,87658
-34,00,000,00,00,/src/main/resources/default.jpg,0,000
-35,0909,09,0909,99,/src/main/resources/Yaqoob wahla (15).jpg,90,99
-36,David,David,David,David,/src/main/resources/Yaqoob wahla (9).jpg,0,David
-37,TT,TT,TT,TT,/src/main/resources/Yaqoob wahla (16).jpg,9,TT
+Matricula,Marca,Modelo,Preco,Descricao
+TesteImport,TesteImport,TesteImport,TesteImport,TesteImport

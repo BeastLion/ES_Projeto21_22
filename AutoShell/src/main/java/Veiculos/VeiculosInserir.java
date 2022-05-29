@@ -2,30 +2,24 @@ package Veiculos;
 
 import Alerts.FailAlert;
 import Alerts.SuccessAlert;
-import DBCONFIG.DB;
 import Menus.FrameMenuGeralDinamico;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
-import java.sql.*;
 import java.util.Objects;
 
 public class VeiculosInserir extends  JDialog{
     private JTable veiculosTable;
     private JPanel veiculosPanel;
-    private JTextField precoText;
+    private JTextField matriculaText;
     private JTextField modeloText;
     private JTextField marcaText;
-    private JTextField matriculaText;
+    private JTextField precoText;
     private JTextField donosAntText;
     private JTextField descricaoText;
     private JLabel matriculaLabel;
@@ -66,6 +60,7 @@ public class VeiculosInserir extends  JDialog{
             String donosAnt = donosAntText.getText();
             String descricao = descricaoText.getText();
             String path = textPathHidden.getText();
+            System.out.println("Matricula no INSERIR " + matricula);
 
             if (Objects.equals(matricula, "") || Objects.equals(marca, "") || Objects.equals(modelo, "") || Objects.equals(preco, "")){
                 try {
@@ -79,18 +74,19 @@ public class VeiculosInserir extends  JDialog{
             if (donosAnt == null){
                 donosAnt = "0";
             }
-            if (path == null){
+            if (Objects.equals(path, "")){
                 path = "/src/main/resources/default.jpg";
             }
             if (gestorVeiculos.checkMatriculaDuplicada(matricula) == 0) {
                 // Chamar a função de inserção
+                System.out.println("Matricula no IF DO INSERIR " + matricula);
                 gestorVeiculos.insertVeiculos(matricula, marca, modelo, preco, donosAnt, descricao, path);
 
                 // Resetar os campos após inserção
-                matriculaText.setText("");
+                precoText.setText("");
                 marcaText.setText("");
                 modeloText.setText("");
-                precoText.setText("");
+                matriculaText.setText("");
                 donosAntText.setText("");
                 descricaoText.setText("");
 

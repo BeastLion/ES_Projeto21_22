@@ -5,10 +5,7 @@ import Alerts.SuccessAlert;
 import DBCONFIG.DB;
 
 import javax.swing.table.DefaultTableModel;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.sql.*;
 
 public class GestorVeiculos {
@@ -44,6 +41,8 @@ public class GestorVeiculos {
             if (row == null){
                 return 0;
             }
+            System.out.println("Matricula no GESTOR VEICULOS " + matricula);
+            System.out.println(row.length);
             if (row.length > 1){
                 return -1;
             }
@@ -256,19 +255,13 @@ public class GestorVeiculos {
     // Importa Veiculos para a nossa BD
     public void importCSVtoDB(String path){
 
-        String csvFilePath = "Reviews-simple.csv";
-
         int batchSize = 20;
 
         try {
 
             Connection connection = DriverManager.getConnection(db.getDB_URL(),db.getUSERNAME(),db.getPASSWORD());
-            connection.setAutoCommit(false);
 
-            String sql = "INSERT INTO veiculos(Matricula,Marca,Modelo,Preco,Descricao) VALUES (?,?,?,?,?)";
-            PreparedStatement statement = connection.prepareStatement(sql);
-
-            BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath));
+            BufferedReader lineReader = new BufferedReader(new FileReader(path));
             String lineText = null;
 
             int count = 0;
@@ -283,30 +276,32 @@ public class GestorVeiculos {
                 String preco = data[3];
                 String descricao = data[4];
 
-                statement.setString(1, matricula);
-                statement.setString(2, marca);
-                statement.setString(3, modelo);
-                statement.setString(4, preco);
-                statement.setString(5, descricao);
-                statement.addBatch();
+                if (checkMatriculaDuplicada(matricula) == 0) {
+                    String sql = "INSERT INTO veiculos(Matricula,Marca,Modelo,Preco,Descricao) VALUES (?,?,?,?,?)";
+                    PreparedStatement statement = connection.prepareStatement(sql);
 
-                if (count % batchSize == 0) {
-                    statement.executeBatch();
+                    statement.setString(1, matricula);
+                    statement.setString(2, marca);
+                    statement.setString(3, modelo);
+                    statement.setString(4, preco);
+                    statement.setString(5, descricao);
+                    statement.executeUpdate();
+
+                    SuccessAlert successAlert = new SuccessAlert(null, "Veiculo com a Matricula " + matricula + "Inserido com sucesso");
+                } else {
+                    FailAlert failAlert = new FailAlert(null, "O veiculo com a matricula: " + matricula + " Já se encontra na nossa base de dados");
                 }
             }
 
             lineReader.close();
-
-            // execute the remaining queries
-            statement.executeBatch();
-
-            connection.commit();
             connection.close();
 
-        } catch (IOException ex) {
-            System.err.println(ex);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
