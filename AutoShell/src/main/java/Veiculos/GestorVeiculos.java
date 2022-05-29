@@ -19,6 +19,45 @@ public class GestorVeiculos {
         this.db = new DB();
     }
 
+    // Check Matricula
+    int checkMatriculaDuplicada(String matricula){
+        try{
+
+            Connection conn = DriverManager.getConnection(db.getDB_URL(),db.getUSERNAME(),db.getPASSWORD());
+
+            Statement stat = conn.createStatement();
+
+            String sql ="SELECT * FROM veiculos WHERE Matricula=?";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1,matricula);
+
+            // Guardamos os nossos resultados na variavel
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Object[] row = {null};
+
+            // Vai para o 1º resultado guardado no query
+            if (resultSet.next()) {
+                // Guardamos numa linha
+                row = new Object[]{resultSet.getInt("id"), resultSet.getString("Matricula"), resultSet.getString("Marca"), resultSet.getString("Modelo"), resultSet.getString("Preco"), resultSet.getString("DonosAnt"), resultSet.getString("Descricao"), resultSet.getString("Imagem")};
+            }
+            if (row == null){
+                return 0;
+            }
+            if (row.length > 1){
+                return -1;
+            }
+            // Fecha o statement
+            stat.close();
+            // Fecha a conecção
+            conn.close();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+    }
+
     // Insere um veiculo
     void insertVeiculos(String matricula, String marca, String modelo, String preco, String donosAnt, String descricao, String imageLink) {
         try{

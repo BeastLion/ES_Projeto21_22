@@ -82,22 +82,29 @@ public class VeiculosInserir extends  JDialog{
             if (path == null){
                 path = "/src/main/resources/default.jpg";
             }
+            if (gestorVeiculos.checkMatriculaDuplicada(matricula) == 0) {
+                // Chamar a função de inserção
+                gestorVeiculos.insertVeiculos(matricula, marca, modelo, preco, donosAnt, descricao, path);
 
-            // Chamar a função de inserção
-            gestorVeiculos.insertVeiculos(matricula,marca,modelo,preco, donosAnt, descricao, path);
+                // Resetar os campos após inserção
+                matriculaText.setText("");
+                marcaText.setText("");
+                modeloText.setText("");
+                precoText.setText("");
+                donosAntText.setText("");
+                descricaoText.setText("");
 
-            // Resetar os campos após inserção
-            matriculaText.setText("");
-            marcaText.setText("");
-            modeloText.setText("");
-            precoText.setText("");
-            donosAntText.setText("");
-            descricaoText.setText("");
-
-            try {
-                SuccessAlert successAlert = new SuccessAlert(null,"VEICULOS INSERIDO COM SUCESSO");
-            } catch (IOException ex) {
-                ex.printStackTrace();
+                try {
+                    SuccessAlert successAlert = new SuccessAlert(null, "VEICULOS INSERIDO COM SUCESSO");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            } else{
+                try {
+                    FailAlert failAlert = new FailAlert(null, "ESTA MATRICULA JÁ ESTÁ A SER USADA");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
 
 

@@ -1,6 +1,7 @@
 package Veiculos;
 
 import Alerts.FailAlert;
+import Alerts.SuccessAlert;
 import Menus.FrameMenuGeralDinamico;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.IllegalFormatCodePointException;
 import java.util.Objects;
 
 public class VeiculosEditar extends JDialog {
@@ -137,12 +139,27 @@ public class VeiculosEditar extends JDialog {
                     path = "/src/main/resources/default.jpg";
                 }
 
-                // Fazemos a sua edição
-                gestorVeiculos.editarVeiculos(matriculaEdit,marcaEdit,modeloEdit,precoEdit,donosEdit,descricao,path,id);
+                if (gestorVeiculos.checkMatriculaDuplicada(matriculaEdit) == 0) {
 
-                // Procurar
-                searchMatricula.setText(matriculaEdit);
+                    // Fazemos a sua edição
+                    gestorVeiculos.editarVeiculos(matriculaEdit, marcaEdit, modeloEdit, precoEdit, donosEdit, descricao, path, id);
 
+                    // Procurar
+                    searchMatricula.setText(matriculaEdit);
+
+                    try {
+                        SuccessAlert successAlert = new SuccessAlert(null, "VEICULOS EDITADO COM SUCESSO");
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+
+                } else{
+                    try {
+                        FailAlert failAlert = new FailAlert(null, "ESTA MATRICULA JÁ ESTÁ A SER USADA");
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
         });
         cancelarButton.addActionListener(new ActionListener() {
