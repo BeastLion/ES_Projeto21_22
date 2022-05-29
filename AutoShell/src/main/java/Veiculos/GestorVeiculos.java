@@ -20,7 +20,7 @@ public class GestorVeiculos {
     }
 
     // Check Matricula
-    int checkMatriculaDuplicada(String matricula){
+    public int checkMatriculaDuplicada(String matricula){
         try{
 
             Connection conn = DriverManager.getConnection(db.getDB_URL(),db.getUSERNAME(),db.getPASSWORD());
@@ -156,37 +156,21 @@ public class GestorVeiculos {
     }
 
     // Elimina um veiculo por o id
-    public boolean eliminarVeiculo(String matricula) {
+    public void eliminarVeiculo(String matricula) {
         try{
 
             Connection conn = DriverManager.getConnection(db.getDB_URL(),db.getUSERNAME(),db.getPASSWORD());
 
             Statement stat = conn.createStatement();
 
-            String sql = "SELECT ID FROM veiculos WHERE matricula=?";
+            String sql = "DELETE FROM veiculos WHERE matricula=?";
 
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
 
-            preparedStatement.setString(1,matricula);
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, matricula);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                int id = resultSet.getInt("id");
-
-                sql = "DELETE FROM veiculos WHERE ID=?";
-                preparedStatement = conn.prepareStatement(sql);
-                preparedStatement.setInt(1, id);
-
-                preparedStatement.executeUpdate(); // Para DML
-
-                // Fecha o statement
-                stat.close();
-                // Fecha a conecção
-                conn.close();
-
-                return true;
-            }
+            preparedStatement.executeUpdate(); // Para DML
 
             // Fecha o statement
             stat.close();
@@ -196,7 +180,6 @@ public class GestorVeiculos {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return false;
     }
 
     // Edita um veiculo baseado no seu id
@@ -270,7 +253,7 @@ public class GestorVeiculos {
         }
     }
 
-    // Importa Veiculso para a nossa BD
+    // Importa Veiculos para a nossa BD
     public void importCSVtoDB(String path){
 
         String csvFilePath = "Reviews-simple.csv";

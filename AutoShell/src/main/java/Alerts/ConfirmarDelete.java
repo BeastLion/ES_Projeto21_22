@@ -13,7 +13,6 @@ public class ConfirmarDelete extends JDialog {
     private JPanel confirmDelete;
     private JButton OKButton;
     private JButton CANCELARButton;
-    private boolean status;
 
     public ConfirmarDelete(JFrame parent, String matricula, Veiculos veiculos) throws IOException {
         super(parent);
@@ -31,17 +30,16 @@ public class ConfirmarDelete extends JDialog {
         OKButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                status = gestorVeiculos.eliminarVeiculo(matricula);
-                if (status){
+                if (gestorVeiculos.checkMatriculaDuplicada(matricula) == -1) {
+                     gestorVeiculos.eliminarVeiculo(matricula);
+                        try {
+                            dispose();
+                            SuccessAlert successAlert = new SuccessAlert(null, "VEICULOS ELIMINADO COM SUCESSO");
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    } else {
                     try {
-                        dispose();
-                        SuccessAlert successAlert = new SuccessAlert(null,"VEICULOS ELIMINADO COM SUCESSO");
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                } else{
-                    try {
-                        dispose();
                         FailAlert failAlert = new FailAlert(null, "NÃO FOI POSSIVEL ELIMINAR ESTE \n VEICULO COM ESTA MATRICULA");
                     } catch (IOException ex) {
                         ex.printStackTrace();
