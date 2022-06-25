@@ -8,8 +8,8 @@ class GestorVeiculosTest {
     @Test
     public void deviaCriarVeiculo(){
         GestorVeiculos gestorVeiculos = new GestorVeiculos();
-    }
 
+    }
     @Test
     public void deviaSelecionarNomeDeUmVeiculo(){
         GestorVeiculos gestorVeiculos = new GestorVeiculos();
