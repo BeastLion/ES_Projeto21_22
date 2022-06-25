@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.table.DefaultTableModel;
 import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.*;
+
 class GestorVeiculosTest {
 
     @Test
