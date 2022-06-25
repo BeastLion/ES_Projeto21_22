@@ -58,7 +58,10 @@ public class GestorVeiculos {
     }
 
     // Insere um veiculo
-    void insertVeiculos(String matricula, String marca, String modelo, String preco, String donosAnt, String descricao, String imageLink) {
+    void insertVeiculos(String matricula, String marca, String modelo, String preco, String donosAnt, String descricao, String imageLink) throws IOException {
+        if (matricula == null || marca == null || modelo == null || preco == null){
+            throw new RuntimeException("Atributo Nulo");
+        }
         try{
             // Começa a conecção
             Connection conn = DriverManager.getConnection(db.getDB_URL(),db.getUSERNAME(),db.getPASSWORD());

@@ -1,67 +1,80 @@
 package Veiculos;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import javax.swing.table.DefaultTableModel;
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 class GestorVeiculosTest {
+
     @Test
-    public void deviaCriarVeiculo(){
+    public void deviaDarExceptionAoInserirMatriculaNull() throws IOException {
         GestorVeiculos gestorVeiculos = new GestorVeiculos();
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            gestorVeiculos.insertVeiculos(null,"Teste","Teste","Teste","Teste","Teste","Teste");
+        });
+    }
+    @Test
+    public void deviaDarExceptionAoInserirMarcaNull() throws IOException {
+        GestorVeiculos gestorVeiculos = new GestorVeiculos();
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            gestorVeiculos.insertVeiculos("Teste",null,"Teste","Teste","Teste","Teste","Teste");
+        });
+    }
+    @Test
+    public void deviaDarExceptionAoInserirModeloNull() throws IOException {
+        GestorVeiculos gestorVeiculos = new GestorVeiculos();
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            gestorVeiculos.insertVeiculos("Teste","Teste",null,"Teste","Teste","Teste","Teste");
+        });
+    }
+    @Test
+    public void deviaDarExceptionAoInserirPrecoNull() throws IOException {
+        GestorVeiculos gestorVeiculos = new GestorVeiculos();
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            gestorVeiculos.insertVeiculos("Teste","Teste","Teste",null,"Teste","Teste","Teste");
+        });
     }
 
     @Test
-    public void deviaSelecionarNomeDeUmVeiculo(){
+    public void deviaDarExceptionAoInserirMatriculaDuplicada() throws IOException {
         GestorVeiculos gestorVeiculos = new GestorVeiculos();
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            gestorVeiculos.checkMatriculaDuplicada("Teste");
+        });
     }
+
     @Test
-    public void deviaSelecionarMarcaDeUmVeiculo(){
+    public void deviaCriarVeiculo() throws IOException {
         GestorVeiculos gestorVeiculos = new GestorVeiculos();
+        gestorVeiculos.insertVeiculos("Teste123", "Teste", "Teste", "Teste", "Teste", "Teste", null);
+        Assertions.assertEquals(1,gestorVeiculos.selectVeiculosMatricula("Teste123").length);
     }
-    @Test
-    public void deviaSelecionarModeloDeUmVeiculo(){
-        GestorVeiculos gestorVeiculos = new GestorVeiculos();
-    }
-    @Test
-    public void deviaSelecionarPrecoDeUmVeiculo(){
-        GestorVeiculos gestorVeiculos = new GestorVeiculos();
-    }
-    @Test
-    public void deviaSelecionarDonosDeUmVeiculo(){
-        GestorVeiculos gestorVeiculos = new GestorVeiculos();
-    }
-    @Test
-    public void deviaSelecionarDescricaoDeUmVeiculo(){
-        GestorVeiculos gestorVeiculos = new GestorVeiculos();
-    }
+
     @Test
     public void deviaSelecionarTodosOsCamposVeiculos(){
         GestorVeiculos gestorVeiculos = new GestorVeiculos();
+        DefaultTableModel model = null;
+        //Assertions.assertEquals(8, .size);
     }
+
     @Test
     public void deviaSelecionarTodosONomeVeiculos(){
         GestorVeiculos gestorVeiculos = new GestorVeiculos();
     }
+
     @Test
     public void deviaSelecionarTodosAMarcaVeiculos(){
         GestorVeiculos gestorVeiculos = new GestorVeiculos();
     }
+
     @Test
     public void deviaSelecionarTodosOModeloVeiculos(){
         GestorVeiculos gestorVeiculos = new GestorVeiculos();
     }
-    @Test
-    public void deviaSelecionarTodosOPrecoVeiculos(){
-        GestorVeiculos gestorVeiculos = new GestorVeiculos();
-    }
-    @Test
-    public void deviaSelecionarTodosOsDonosVeiculos(){
-        GestorVeiculos gestorVeiculos = new GestorVeiculos();
-    }
-    @Test
-    public void deviaSelecionarTodosADescricaoVeiculos(){
-        GestorVeiculos gestorVeiculos = new GestorVeiculos();
-    }
+
     @Test
     public void deviaEliminarUmVeiculo(){
         GestorVeiculos gestorVeiculos = new GestorVeiculos();
