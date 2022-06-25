@@ -80,11 +80,7 @@ public class VeiculosInserir extends  JDialog{
             if (gestorVeiculos.checkMatriculaDuplicada(matricula) == 0) {
                 // Chamar a função de inserção
                 System.out.println("Matricula no IF DO INSERIR " + matricula);
-                try {
-                    gestorVeiculos.insertVeiculos(matricula, marca, modelo, preco, donosAnt, descricao, path);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                gestorVeiculos.insertVeiculos(matricula, marca, modelo, preco, donosAnt, descricao, path);
 
                 // Resetar os campos após inserção
                 precoText.setText("");
@@ -102,8 +98,6 @@ public class VeiculosInserir extends  JDialog{
             } else{
                 try {
                     FailAlert failAlert = new FailAlert(null, "ESTA MATRICULA JÁ ESTÁ A SER USADA");
-                    //Descomentar para testes
-                    throw new RuntimeException("Matricula a ser usada");
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
