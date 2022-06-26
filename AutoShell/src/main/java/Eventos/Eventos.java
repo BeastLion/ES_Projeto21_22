@@ -1,2 +1,3 @@
-package Eventos;public class Eventos {
+package Eventos;
+public class Eventos {
 }

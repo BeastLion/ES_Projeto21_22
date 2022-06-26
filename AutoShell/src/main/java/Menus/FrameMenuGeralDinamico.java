@@ -5,6 +5,7 @@ import Eventos.Eventos;
 import Filial.Filial;
 import Manutenção.Manutencao;
 import Peças.Pecas;
+import Peças.PecasConsultar;
 import Transação.Transacao;
 import Veiculos.Veiculos;
 import Veiculos.VeiculosInserir;
@@ -133,7 +134,9 @@ public class FrameMenuGeralDinamico extends JDialog {
         consultarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Vai para a página de Consultar
                 dispose();
+                PecasConsultar pecasConsultar = new PecasConsultar(null);
             }
         });
         inserirButton.addActionListener(new ActionListener() {
