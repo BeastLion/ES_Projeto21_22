@@ -143,7 +143,7 @@ public class PecasEditar extends JDialog {
                 if (gestorPecas.checkSKUDuplicada(matriculaEdit) == 0) {
 
                     // Fazemos a sua edição
-                    gestorPecas.editarPecas(matriculaEdit, marcaEdit, modeloEdit, precoEdit, donosEdit, descricao, path, id);
+                    //gestorPecas.editarPecas(matriculaEdit, marcaEdit, modeloEdit, precoEdit, donosEdit, descricao, path, id);
 
                     // Procurar
                     searchMatricula.setText(matriculaEdit);
